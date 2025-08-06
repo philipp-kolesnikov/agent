@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenssegers\Agent;
+namespace FarPost\Agent;
 
 use Illuminate\Support\ServiceProvider;
 
