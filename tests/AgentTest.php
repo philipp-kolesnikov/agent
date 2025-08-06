@@ -168,11 +168,9 @@ class AgentTest extends TestCase
         $this->assertFalse($agent->robot());
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testCallShouldThrowBadMethodCallException()
     {
+        $this->expectException(\BadMethodCallException::class);
         $agent = new Agent();
         $agent->invalidMethod();
     }
@@ -185,28 +183,10 @@ class AgentTest extends TestCase
             $agent->setUserAgent($ua);
             $this->assertEquals($device, $agent->device(), $ua);
             $this->assertTrue($agent->isMobile(), $ua);
-            $this->assertFalse($agent->isDesktop(), $ua);
 
             if (!strpos($device, ' ')) {
                 $method = "is{$device}";
                 $this->assertTrue($agent->{$method}(), $ua, $method);
-            }
-        }
-    }
-
-    public function testDesktopDevices()
-    {
-        $agent = new Agent();
-
-        foreach ($this->desktopDevices as $ua => $device) {
-            $agent->setUserAgent($ua);
-            $this->assertEquals($device, $agent->device(), $ua);
-            $this->assertFalse($agent->isMobile(), $ua);
-            $this->assertTrue($agent->isDesktop(), $ua);
-
-            if (!strpos($device, ' ')) {
-                $method = "is{$device}";
-                $this->assertTrue($agent->{$method}(), $ua);
             }
         }
     }
@@ -239,18 +219,14 @@ class AgentTest extends TestCase
 
         foreach ($this->desktops as $ua) {
             $agent->setUserAgent($ua);
-            $this->assertTrue($agent->isDesktop(), $ua);
             $this->assertFalse($agent->isMobile(), $ua);
             $this->assertFalse($agent->isTablet(), $ua);
-            $this->assertFalse($agent->isPhone(), $ua);
             $this->assertFalse($agent->isRobot(), $ua);
         }
 
         foreach ($this->phones as $ua) {
             $agent->setUserAgent($ua);
-            $this->assertTrue($agent->isPhone(), $ua);
             $this->assertTrue($agent->isMobile(), $ua);
-            $this->assertFalse($agent->isDesktop(), $ua);
             $this->assertFalse($agent->isTablet(), $ua);
             $this->assertFalse($agent->isRobot(), $ua);
         }
@@ -258,25 +234,20 @@ class AgentTest extends TestCase
         foreach ($this->robots as $ua => $robot) {
             $agent->setUserAgent($ua);
             $this->assertTrue($agent->isRobot(), $ua);
-            $this->assertFalse($agent->isDesktop(), $ua);
             $this->assertFalse($agent->isMobile(), $ua);
             $this->assertFalse($agent->isTablet(), $ua);
-            $this->assertFalse($agent->isPhone(), $ua);
         }
 
         foreach ($this->mobileDevices as $ua => $device) {
             $agent->setUserAgent($ua);
             $this->assertTrue($agent->isMobile(), $ua);
-            $this->assertFalse($agent->isDesktop(), $ua);
             $this->assertFalse($agent->isRobot(), $ua);
         }
 
         foreach ($this->desktopDevices as $ua => $device) {
             $agent->setUserAgent($ua);
-            $this->assertTrue($agent->isDesktop(), $ua);
             $this->assertFalse($agent->isMobile(), $ua);
             $this->assertFalse($agent->isTablet(), $ua);
-            $this->assertFalse($agent->isPhone(), $ua);
             $this->assertFalse($agent->isRobot(), $ua);
         }
     }
